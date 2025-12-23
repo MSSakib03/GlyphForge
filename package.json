@@ -1,6 +1,6 @@
 {
   "name": "glyphforge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A powerful web tool to extract and export font glyphs as SVG or PNG images.",
   "main": "main.js",
   "author": "MS Sakib",
