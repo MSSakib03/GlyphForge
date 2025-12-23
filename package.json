@@ -52,12 +52,13 @@
       "target": [
         "portable"
       ],
-      "icon": "public/vite.svg"
+      "icon": "favicon.ico"
     },
     "files": [
       "dist/**/*",
       "main.js",
       "package.json"
-    ]
+    ],
+    "asar": true
   }
 }
