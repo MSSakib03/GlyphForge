@@ -1,10 +1,10 @@
 {
   "name": "glyphforge",
-  "private": true,
   "version": "1.0.0",
+  "description": "A powerful web tool to extract and export font glyphs as SVG or PNG images.",
   "main": "main.js",
   "author": "MS Sakib",
-  "description": "A powerful web tool to extract and export font glyphs as SVG or PNG images.",
+  "license": "GPL-3.0-or-later",
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
@@ -52,12 +52,15 @@
       "target": [
         "portable"
       ],
-      "icon": "favicon.ico" 
+      "icon": "favicon.ico"
     },
     "files": [
       "dist/**/*",
       "main.js",
       "package.json"
+    ],
+    "extraResources": [
+      "LICENSE.md"
     ],
     "asar": true
   }
