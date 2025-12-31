@@ -1,5 +1,10 @@
 import React from 'react';
-import { PanelLeftClose, PanelLeftOpen, Upload, FileType, X, Download, Layers, AlignEndHorizontal, AlignVerticalJustifyCenter, Baseline, Maximize, MoveHorizontal, MoveVertical, Palette, FileSignature, Grid, LayoutGrid, Eye, Trash2, CheckSquare, Square } from 'lucide-react';
+import { 
+  PanelLeftClose, PanelLeftOpen, Upload, FileType, X, Download, Layers, 
+  Baseline, Maximize, MoveHorizontal, MoveVertical, Palette, 
+  FileSignature, Grid, LayoutGrid, Eye, Trash2, CheckSquare, Square,
+  Focus, ArrowUpDown // New icons imported
+} from 'lucide-react';
 import { cn, PRESETS, formatRange } from '../utils/utils';
 import { Button, SliderControl, AppLogo } from './UIComponents';
 
@@ -14,7 +19,7 @@ const Sidebar = ({
   return (
     <aside className={cn(
       "bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col shrink-0 z-20 shadow-xl overflow-hidden transition-all duration-300 ease-in-out",
-      isSidebarOpen ? "w-80" : "w-[60px]" // Fixed collapsed width
+      isSidebarOpen ? "w-80" : "w-[60px]"
     )}>
       {/* --- SIDEBAR HEADER --- */}
       <div className={cn("h-16 flex items-center border-b border-gray-100 dark:border-gray-800 transition-all", isSidebarOpen ? "px-4 justify-between" : "justify-center px-0")}>
@@ -122,15 +127,46 @@ const Sidebar = ({
           <div className="space-y-3">
             <label className="text-xs font-bold text-gray-400 uppercase">Adjustments</label>
             
+            {/* UPDATED: Adjustments Buttons (Icons & Logic) */}
             <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
-               <button onClick={() => { updateSetting('positioning', 'baseline'); commitSettingChange(); }} title="Relative Baseline" className={cn("flex-1 text-xs py-1 rounded flex items-center justify-center gap-1", currentSettings.positioning === 'baseline' ? "bg-white dark:bg-gray-700 shadow-sm text-violet-600" : "text-gray-500")}>
-                  <AlignEndHorizontal size={12} className="rotate-90"/> Base
+               
+               {/* BASE: Sets Y to 10 */}
+               <button 
+                 onClick={() => { 
+                    updateSetting('positioning', 'baseline'); 
+                    updateSetting('translateY', 10); 
+                    commitSettingChange(); 
+                 }} 
+                 title="Relative Baseline (Sets Y to 10)" 
+                 className={cn("flex-1 text-xs py-1 rounded flex items-center justify-center gap-1", currentSettings.positioning === 'baseline' ? "bg-white dark:bg-gray-700 shadow-sm text-violet-600" : "text-gray-500")}
+               >
+                  <Baseline size={14} /> Base
                </button>
-               <button onClick={() => { updateSetting('positioning', 'center'); commitSettingChange(); }} title="Geometric Center" className={cn("flex-1 text-xs py-1 rounded flex items-center justify-center gap-1", currentSettings.positioning === 'center' ? "bg-white dark:bg-gray-700 shadow-sm text-violet-600" : "text-gray-500")}>
-                  <AlignVerticalJustifyCenter size={12}/> Center
+
+               {/* CENTER: Sets Y to 0 */}
+               <button 
+                 onClick={() => { 
+                    updateSetting('positioning', 'center'); 
+                    updateSetting('translateY', 0); 
+                    commitSettingChange(); 
+                 }} 
+                 title="Geometric Center (Sets Y to 0)" 
+                 className={cn("flex-1 text-xs py-1 rounded flex items-center justify-center gap-1", currentSettings.positioning === 'center' ? "bg-white dark:bg-gray-700 shadow-sm text-violet-600" : "text-gray-500")}
+               >
+                  <Focus size={14} /> Center
                </button>
-               <button onClick={() => { updateSetting('positioning', 'metrics'); commitSettingChange(); }} title="Use Font Metrics (Ascender/Descender)" className={cn("flex-1 text-xs py-1 rounded flex items-center justify-center gap-1", currentSettings.positioning === 'metrics' ? "bg-white dark:bg-gray-700 shadow-sm text-violet-600" : "text-gray-500")}>
-                  <Baseline size={12}/> Metrics
+
+               {/* METRICS: Sets Y to 0 */}
+               <button 
+                 onClick={() => { 
+                    updateSetting('positioning', 'metrics'); 
+                    updateSetting('translateY', 0); 
+                    commitSettingChange(); 
+                 }} 
+                 title="Use Font Metrics (Sets Y to 0)" 
+                 className={cn("flex-1 text-xs py-1 rounded flex items-center justify-center gap-1", currentSettings.positioning === 'metrics' ? "bg-white dark:bg-gray-700 shadow-sm text-violet-600" : "text-gray-500")}
+               >
+                  <ArrowUpDown size={14} /> Metrics
                </button>
             </div>
 
@@ -203,11 +239,10 @@ const Sidebar = ({
               </div>
             </div>
 
-            {/* --- UPDATED: FILENAME PATTERN SECTION --- */}
+            {/* --- FILENAME PATTERN SECTION --- */}
             <div className="space-y-2 pt-2 border-t border-gray-100 dark:border-gray-800">
               <label className="text-xs font-bold text-gray-400 uppercase flex items-center gap-2"><FileSignature size={12}/> Filename Pattern</label>
               
-              {/* Unicode Pattern */}
               <div className="space-y-1">
                   <label className="text-[9px] text-gray-500">For Unicode Glyphs</label>
                   <div className="flex items-center gap-2 p-1 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800">
@@ -221,7 +256,6 @@ const Sidebar = ({
                   </div>
               </div>
 
-              {/* Ligature Pattern - ONLY VISIBLE IF MODE IS ALL */}
               {filterMode === 'all' && (
                   <div className="space-y-1 animate-in slide-in-from-top-2">
                       <label className="text-[9px] text-gray-500">For Ligatures/Non-Unicode</label>

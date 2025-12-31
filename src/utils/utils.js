@@ -54,9 +54,10 @@ export const PRESETS = {
   large: { label: 'Large (512x512)', w: 512, h: 512 },
 };
 
+// UPDATED: Default is now Metrics, translateY is 0
 export const DEFAULT_SETTINGS = {
-  scale: 0.85, padding: 10, translateX: 0, translateY: 12, rotate: 0, flipH: false, flipV: false,
-  positioning: 'baseline', canvasWidth: 100, canvasHeight: 100, color: '#000000',
+  scale: 0.85, padding: 10, translateX: 0, translateY: 0, rotate: 0, flipH: false, flipV: false,
+  positioning: 'metrics', canvasWidth: 100, canvasHeight: 100, color: '#000000',
   strokeWidth: 1, 
   backgroundColor: 'transparent',
   renderMode: 'fill'

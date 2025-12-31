@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react'; // useMemo added
 import { cn } from '../utils/utils';
 
 const GlyphCard = React.memo(({ g, settings, isSelected, isError, toggleSelection, onUpdatePosition, onDragEnd }) => {
@@ -26,8 +26,11 @@ const GlyphCard = React.memo(({ g, settings, isSelected, isError, toggleSelectio
     stroke = finalStrokeWidth;
   }
 
-  const getPath = () => {
+  // --- OPTIMIZATION: Memoize Path Calculation ---
+  // This prevents re-calculating the complex SVG path on every minor render unless settings change.
+  const d = useMemo(() => {
     if (!g.glyph.path || g.glyph.path.commands.length === 0) return null;
+    
     const padFactor = 1 - (settings.padding / 100);
     const baseSize = Math.min(settings.canvasWidth, settings.canvasHeight) * padFactor;
     const scaledFontSize = baseSize * settings.scale;
@@ -55,9 +58,8 @@ const GlyphCard = React.memo(({ g, settings, isSelected, isError, toggleSelectio
 
     const finalPath = g.glyph.getPath(xPos, yPos, scaledFontSize);
     return finalPath.toPathData(2);
-  };
+  }, [g.glyph, g.fontMetrics, settings.padding, settings.canvasWidth, settings.canvasHeight, settings.scale, settings.translateX, settings.translateY, settings.positioning]);
 
-  const d = getPath();
   const cx = settings.canvasWidth / 2;
   const cy = settings.canvasHeight / 2;
 

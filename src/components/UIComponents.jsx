@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '../utils/utils';
+import { AlertTriangle, X } from 'lucide-react'; // Ensure imports are correct
 
 export const Button = ({ children, onClick, variant = 'primary', className, disabled, size='md', title }) => {
   const base = "font-medium transition-all flex items-center justify-center gap-2 rounded-lg active:scale-95 disabled:opacity-50 disabled:pointer-events-none";
@@ -62,3 +63,39 @@ export const AppLogo = () => (
     </div>
   </div>
 );
+
+// --- NEW MODERN CONFIRMATION MODAL ---
+export const ConfirmationModal = ({ isOpen, title, message, onConfirm, onCancel, confirmText = "Delete", isDangerous = false }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-2xl max-w-sm w-full p-6 relative transform scale-100 animate-in zoom-in-95 duration-200">
+        
+        <button onClick={onCancel} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+          <X size={20} />
+        </button>
+
+        <div className="flex flex-col items-center text-center gap-3">
+          <div className={cn("p-3 rounded-full", isDangerous ? "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400" : "bg-violet-100 text-violet-600")}>
+            <AlertTriangle size={24} />
+          </div>
+          
+          <div className="space-y-1">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white">{title}</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{message}</p>
+          </div>
+
+          <div className="flex gap-3 w-full mt-4">
+            <Button variant="secondary" onClick={onCancel} className="flex-1">
+              Cancel
+            </Button>
+            <Button variant={isDangerous ? "danger" : "primary"} onClick={onConfirm} className="flex-1">
+              {confirmText}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
