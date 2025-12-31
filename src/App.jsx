@@ -45,7 +45,7 @@ const ExportOptionsModal = ({ isOpen, title, onClose, onConfirm, children }) => 
     );
 };
 
-export default function GlyphForge() {
+export default function GlyphScopeX() {
   const [fontList, setFontList] = useState([]); 
   const [activeFontIndex, setActiveFontIndex] = useState(0);
   const [compareFontIndex, setCompareFontIndex] = useState(null); 
@@ -719,7 +719,7 @@ export default function GlyphForge() {
     return (
       <div className="h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-950 text-gray-800 dark:text-gray-100 font-sans">
          <Loader2 className="animate-spin text-violet-600 mb-4" size={48} />
-         <h2 className="text-xl font-bold">Initializing GlyphForge...</h2>
+         <h2 className="text-xl font-bold">Initializing GlyphScopeX...</h2>
       </div>
     );
   }

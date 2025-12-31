@@ -1,5 +1,5 @@
 {
-  "name": "glyphforge",
+  "name": "GlyphScopeX",
   "version": "1.0.1",
   "description": "A powerful web tool to extract and export font glyphs as SVG or PNG images.",
   "main": "main.js",
@@ -42,8 +42,8 @@
     "vite": "^7.2.4"
   },
   "build": {
-    "appId": "com.mssakib.glyphforge",
-    "productName": "GlyphForge",
+    "appId": "com.mssakib.GlyphScopeX",
+    "productName": "GlyphScopeX",
     "copyright": "Copyright © 2025 MS Sakib",
     "directories": {
       "output": "dist_electron"

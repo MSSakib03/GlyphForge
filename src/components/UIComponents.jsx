@@ -83,8 +83,10 @@ export const AppLogo = () => (
     </svg>
 
     <div className="font-bold text-lg tracking-tight text-gray-900 dark:text-white leading-tight whitespace-nowrap">
-      <span className="block">GlyphForge</span>
-      <span className="block text-sm font-normal opacity-80">Font Glyph Exporter</span>
+      <span className="block">GlyphScopeX</span>
+      <span className="block text-sm font-normal opacity-80">Explore & Extract Glyphs!
+
+</span>
     </div>
   </div>
 );

@@ -1,8 +1,10 @@
-# GlyphForge -- Font Glyph Exporter
-![License](https://img.shields.io/github/license/MSSakib03/glyphforge)
-![Version](https://img.shields.io/github/v/release/MSSakib03/glyphforge)
+# GlyphScopeX -- Explore & Extract Glyphs!
 
-**GlyphForge** is a specialized tool to **extract**, **inspect**, and **export** individual glyphs from font files. Unlike standard font viewers, it renders every character as a standalone **SVG card**, allowing you to save them as high-quality images (SVG/PNG) individually or in bulk. It also provide providing **font subsetting**, **sprite sheet** generation, clipping **error detection**, and per-glyph transformation tools in a fast, browser-based interface.
+
+![License](https://img.shields.io/github/license/MSSakib03/GlyphScopeX)
+![Version](https://img.shields.io/github/v/release/MSSakib03/GlyphScopeX)
+
+**GlyphScopeX** is a specialized tool to **extract**, **inspect**, and **export** individual glyphs from font files. Unlike standard font viewers, it renders every character as a standalone **SVG card**, allowing you to save them as high-quality images (SVG/PNG) individually or in bulk. It also provide providing **font subsetting**, **sprite sheet** generation, clipping **error detection**, and per-glyph transformation tools in a fast, browser-based interface.
 
 🌐 **Available as:** Web Application & Standalone Desktop App.
 📂 **Supported Formats:** `.ttf`, `.otf`, `.woff`.
@@ -14,7 +16,7 @@
 
 ### 💎 Core: Glyph Extraction & Bulk Export
 
-This is the heart of GlyphForge. It breaks down a font file into its constituent vectors.
+This is the heart of GlyphScopeX. It breaks down a font file into its constituent vectors.
 
 * 🃏 **Visual Glyph Cards:** Every character is rendered as a separate, interactive card using SVG paths.
 * 🏗️ **Bulk Extraction:**
@@ -71,7 +73,7 @@ Before exporting, you can tweak the glyphs to fit your design needs:
 
 ## 🧠 How It Works
 
-1. **📂 Load:** Drag & drop a font file. GlyphForge parses it locally using **opentype.js**.
+1. **📂 Load:** Drag & drop a font file. GlyphScopeX parses it locally using **opentype.js**.
 2. **👁️ Visualize:** The tool renders each glyph's vector path onto an HTML5 Canvas/SVG card.
 3. **⚙️ Customize:** Apply global transformations (scale, padding) to all glyphs.
 4. **⬇️ Export:** Click "Download" to generate files. The app zips them up entirely in your browser memory.
@@ -90,7 +92,7 @@ To access the latest features like **Type Tester**, **Subsetting**, and **Sprite
 
 If you don't use Git, just follow these simple steps:
 
-1. **Download:** Click **[Here to Download ZIP](https://github.com/MSSakib03/glyphforge/archive/refs/heads/main.zip)** (or click the green 'Code' button > 'Download ZIP' on this page).
+1. **Download:** Click **[Here to Download ZIP](https://github.com/MSSakib03/GlyphScopeX/archive/refs/heads/main.zip)** (or click the green 'Code' button > 'Download ZIP' on this page).
 2. **Extract:** Unzip the downloaded file into a folder.
 3. **Open Terminal:** Go inside that folder.
 * *(Tip: Click on the folder's address bar at the top, type `cmd`, and press **Enter** to open the terminal right there).*
@@ -112,10 +114,10 @@ If you have Git installed, simply run:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/MSSakib03/glyphforge.git
+git clone https://github.com/MSSakib03/GlyphScopeX.git
 
 # 2. Navigate to directory
-cd glyphforge
+cd GlyphScopeX
 
 # 3. Install dependencies
 npm install
@@ -131,9 +133,9 @@ npm run dev
 
 > **Note:** The current desktop release is stable but **missing new features** (Type Tester, Font Subsetting, Sprite Sheet Generator, Overlay Comparison).
 
-1. Visit the **[Releases Page](https://github.com/MSSakib03/glyphforge/releases/latest)**.
-2. Download the latest `GlyphForge-vX.X.X-win-x64.zip` or `.exe` file.
-3. Install/Extract and run `GlyphForge.exe`.
+1. Visit the **[Releases Page](https://github.com/MSSakib03/GlyphScopeX/releases/latest)**.
+2. Download the latest `GlyphScopeX-vX.X.X-win-x64.zip` or `.exe` file.
+3. Install/Extract and run `GlyphScopeX.exe`.
 
 ---
 
@@ -182,7 +184,7 @@ src/
 ## 🤝 Contributing
 
 Contributions are welcome! 🐛 Found a bug? 💡 Have a feature idea?
-Feel free to [Open an Issue](https://github.com/MSSakib03/glyphforge/issues) or submit a Pull Request.
+Feel free to [Open an Issue](https://github.com/MSSakib03/GlyphScopeX/issues) or submit a Pull Request.
 
 ---
 
