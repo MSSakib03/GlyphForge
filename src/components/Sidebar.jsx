@@ -116,7 +116,7 @@ const Sidebar = ({
             
             {/* Guidelines Toggle */}
             <button onClick={() => setShowGuidelines(!showGuidelines)} className={cn("w-full mb-2 flex items-center justify-between p-2 rounded-lg border text-xs font-medium transition-all", showGuidelines ? "bg-violet-50 border-violet-200 text-violet-700 dark:bg-violet-900/30 dark:border-violet-700" : "bg-white border-gray-200 text-gray-600 dark:bg-gray-800 dark:border-gray-700")}>
-                <span className="flex items-center gap-2"><Ruler size={14}/> Visual Guidelines</span>
+                <span className="flex items-center gap-2"><Ruler size={14}/> View Font Metricss</span>
                 <span className={cn("w-8 h-4 rounded-full relative transition-colors", showGuidelines ? "bg-violet-500" : "bg-gray-300")}>
                     <span className={cn("absolute top-0.5 w-3 h-3 bg-white rounded-full transition-all", showGuidelines ? "left-4.5" : "left-0.5")}></span>
                 </span>

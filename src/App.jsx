@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback, useRef, useTransition
 import { 
   Upload, Moon, Sun, Download, ChevronLeft, X, 
   Type, Trash2, AlertTriangle, Undo2, Redo2, RotateCcw, 
-  Loader2, Search, CheckSquare, Settings2, FileImage, FileType, FileJson, PenTool
+  Loader2, Search, CheckSquare, FileImage, FileType, FileJson
 } from 'lucide-react';
 import opentype from 'opentype.js';
 import JSZip from 'jszip';
@@ -18,7 +18,7 @@ import { Button, AppLogo, ConfirmationModal } from './components/UIComponents';
 
 // Import Utils
 import { 
-  cn, svgToPng, PRESETS, DEFAULT_SETTINGS, formatRange, 
+  cn, svgToPng, DEFAULT_SETTINGS, formatRange, 
   LARGE_BLOCK_THRESHOLD, LARGE_BLOCK_PAGE_SIZE, ERROR_VIEW_PAGE_SIZE,
   createSubset 
 } from './utils/utils';
@@ -61,8 +61,6 @@ export default function GlyphScopeX() {
 
   // --- EXPORT MODAL STATES ---
   const [subsetModal, setSubsetModal] = useState({ isOpen: false, formats: { ttf: true, otf: false, woff: false } });
-  
-  // 3. Update: Default settings -> png: true, svg: true, json: true, transparent: false
   const [spriteModal, setSpriteModal] = useState({ isOpen: false, formats: { png: true, svg: true, json: true }, transparent: false });
 
   // --- LAZY LOAD DATA ---
@@ -279,7 +277,15 @@ export default function GlyphScopeX() {
 
   const handleDragOver = useCallback((e) => { e.preventDefault(); e.stopPropagation(); e.dataTransfer.dropEffect = 'copy'; setIsDragging(true); }, []);
   const handleDragLeave = useCallback((e) => { e.preventDefault(); e.stopPropagation(); setIsDragging(false); }, []);
-  const handleDrop = useCallback((e) => { e.preventDefault(); e.stopPropagation(); setIsDragging(false); const files = e.dataTransfer.files; if (files && files.length > 0) processFiles(files); }, []);
+
+  // --- CRITICAL FIX: REMOVED useCallback SO IT ALWAYS HAS LATEST STATE ---
+  const handleDrop = (e) => { 
+    e.preventDefault(); 
+    e.stopPropagation(); 
+    setIsDragging(false); 
+    const files = e.dataTransfer.files; 
+    if (files && files.length > 0) processFiles(files); 
+  };
 
   const processFiles = (fileList) => {
     if (!isDataReady) { alert("System is still loading. Please wait."); return; }
@@ -320,9 +326,8 @@ export default function GlyphScopeX() {
             try {
                 const parsedFont = opentype.parse(event.target.result);
                 const glyphList = [];
-                const fontMetrics = { ascender: parsedFont.ascender, descender: parsedFont.descender, unitsPerEm: parsedFont.unitsPerEm };
-                const UNICODE_NAMES_DATA = unicodeNamesRef.current; 
-                
+                const os2 = parsedFont.tables.os2;
+                const fontMetrics = { ascender: parsedFont.ascender, descender: parsedFont.descender, unitsPerEm: parsedFont.unitsPerEm, capHeight: os2?.sCapHeight ? os2.sCapHeight : undefined, xHeight: os2?.sxHeight ? os2.sxHeight : undefined};                const UNICODE_NAMES_DATA = unicodeNamesRef.current; 
                 const totalGlyphs = parsedFont.glyphs.length;
                 const GLYPH_BATCH_SIZE = 500;
                 let gIndex = 0;
@@ -801,7 +806,15 @@ export default function GlyphScopeX() {
       </ExportOptionsModal>
 
       {isModeLoading && (<div className="absolute inset-0 z-[60] bg-white/50 dark:bg-black/50 backdrop-blur-sm flex items-center justify-center"><div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-xl flex items-center gap-3"><Loader2 className="animate-spin text-violet-600" size={24}/><span className="font-semibold text-gray-700 dark:text-gray-200">Rendering Fonts...</span></div></div>)}
-      {isDragging && (<div className="absolute inset-0 z-50 bg-violet-600/90 flex flex-col items-center justify-center text-white backdrop-blur-sm animate-in fade-in duration-200"><Upload size={64} className="mb-4 animate-bounce" /><h2 className="text-3xl font-bold">Drop Fonts Here</h2><p className="text-violet-200 mt-2">You can drop multiple .ttf/.otf/.woff files</p></div>)}
+      
+      {/* FIX: added 'pointer-events-none' to prevent flickering */}
+      {isDragging && (
+        <div className="absolute inset-0 z-50 bg-violet-600/90 flex flex-col items-center justify-center text-white backdrop-blur-sm animate-in fade-in duration-200 pointer-events-none">
+          <Upload size={64} className="mb-4 animate-bounce" />
+          <h2 className="text-3xl font-bold">Drop Fonts Here</h2>
+          <p className="text-violet-200 mt-2">You can drop multiple .ttf/.otf/.woff files</p>
+        </div>
+      )}
 
       <Sidebar 
         isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} fontList={fontList} activeFontIndex={activeFontIndex} switchFont={switchFont} removeFont={removeFont} handleFileUpload={handleFileUpload}

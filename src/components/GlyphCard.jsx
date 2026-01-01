@@ -1,12 +1,14 @@
+// GlyphCard.jsx (Full Component with Updates)
+
 import React, { useState, useRef, useMemo } from 'react';
 import { cn } from '../utils/utils';
-import { Copy, Check } from 'lucide-react'; // New icons
+import { Copy, Check } from 'lucide-react'; 
 
-const GlyphCard = React.memo(({ g, comparisonG, settings, isSelected, isError, toggleSelection, onUpdatePosition, onDragEnd, showGuidelines }) => { // showGuidelines prop added
+const GlyphCard = React.memo(({ g, comparisonG, settings, isSelected, isError, toggleSelection, onUpdatePosition, onDragEnd, showGuidelines }) => { 
   const [isDragging, setIsDragging] = useState(false);
   const dragStartRef = useRef({ x: 0, y: 0, initialTx: 0, initialTy: 0 });
   const hasMovedRef = useRef(false);
-  const [copied, setCopied] = useState(false); // For copy feedback
+  const [copied, setCopied] = useState(false); 
 
   const strokeWidth = Math.abs(settings.strokeWidth - 1) * 2; 
   const strokeColor = settings.strokeWidth < 1 ? settings.backgroundColor : settings.color;
@@ -68,12 +70,17 @@ const GlyphCard = React.memo(({ g, comparisonG, settings, isSelected, isError, t
   const guides = useMemo(() => {
     if (!showGuidelines || !pathData || !g.fontMetrics) return null;
     const { yPos, fontScale } = pathData;
-    // In SVG coords (y goes down), but font coords y goes up.
-    // yPos is the baseline position in SVG pixels.
+    
+    // Calculate positions
+    // Note: yPos is the baseline. In SVG, Y increases downwards.
+    // So we subtract (metric * scale) to go "up" the screen.
     return {
         baseline: yPos,
         ascender: yPos - (g.fontMetrics.ascender * fontScale),
-        descender: yPos - (g.fontMetrics.descender * fontScale)
+        descender: yPos - (g.fontMetrics.descender * fontScale),
+        // Only calculate these if present in metrics
+        capHeight: g.fontMetrics.capHeight !== undefined ? yPos - (g.fontMetrics.capHeight * fontScale) : undefined,
+        xHeight: g.fontMetrics.xHeight !== undefined ? yPos - (g.fontMetrics.xHeight * fontScale) : undefined
     };
   }, [showGuidelines, pathData, g.fontMetrics]);
 
@@ -138,14 +145,55 @@ const GlyphCard = React.memo(({ g, comparisonG, settings, isSelected, isError, t
             <svg viewBox={`0 0 ${settings.canvasWidth} ${settings.canvasHeight}`} className="w-full h-full overflow-visible relative z-10">
               <g transform={`rotate(${settings.rotate}, ${cx}, ${cy}) scale(${settings.flipH?-1:1}, ${settings.flipV?-1:1})`}>
                 
-                {/* Visual Guidelines */}
+                {/* View Font Metrics */}
                 {guides && (
-                    <g strokeWidth="0.5" className="opacity-50">
-                        <line x1="-1000" x2="1000" y1={guides.ascender} y2={guides.ascender} stroke="#10b981" strokeDasharray="2,2" vectorEffect="non-scaling-stroke"/>
-                        <line x1="-1000" x2="1000" y1={guides.baseline} y2={guides.baseline} stroke="#3b82f6" vectorEffect="non-scaling-stroke"/>
-                        <line x1="-1000" x2="1000" y1={guides.descender} y2={guides.descender} stroke="#ef4444" strokeDasharray="2,2" vectorEffect="non-scaling-stroke"/>
+                    <g strokeWidth="0.5" className="opacity-60">
+                        {/* 1. Ascender Line (Top most) - Green */}
+                        <line 
+                            x1="-1000" x2="1000" 
+                            y1={guides.ascender} y2={guides.ascender} 
+                            stroke="#10b981" strokeDasharray="4,2" 
+                            vectorEffect="non-scaling-stroke"
+                        />
+                        
+                        {/* 2. Headline / Cap Height - Orange (Only if exists) */}
+                        {guides.capHeight !== undefined && (
+                            <line 
+                                x1="-1000" x2="1000" 
+                                y1={guides.capHeight} y2={guides.capHeight} 
+                                stroke="#f97316" strokeDasharray="2,2" 
+                                vectorEffect="non-scaling-stroke"
+                            />
+                        )}
+                
+                        {/* 3. Mean Line / x-Height - Purple (Only if exists) */}
+                        {guides.xHeight !== undefined && (
+                            <line 
+                                x1="-1000" x2="1000" 
+                                y1={guides.xHeight} y2={guides.xHeight} 
+                                stroke="#8b5cf6" strokeDasharray="2,2" 
+                                vectorEffect="non-scaling-stroke"
+                            />
+                        )}
+                
+                        {/* 4. Baseline - Blue (Solid) */}
+                        <line 
+                            x1="-1000" x2="1000" 
+                            y1={guides.baseline} y2={guides.baseline} 
+                            stroke="#3b82f6" strokeWidth="0.8"
+                            vectorEffect="non-scaling-stroke"
+                        />
+                
+                        {/* 5. Descender Line - Red */}
+                        <line 
+                            x1="-1000" x2="1000" 
+                            y1={guides.descender} y2={guides.descender} 
+                            stroke="#ef4444" strokeDasharray="4,2" 
+                            vectorEffect="non-scaling-stroke"
+                        />
                     </g>
                 )}
+
 
                 {d ? (<path d={d} fill={fill} stroke={strokeClr} strokeWidth={stroke} paintOrder="stroke" strokeLinejoin="round" />) : <text x="50%" y="50%" textAnchor="middle" fill="#ccc" fontSize="20">?</text>}
                 {d2 && (<path d={d2} fill={settings.comparisonColor} opacity={settings.comparisonOpacity} stroke="none"/>)}
